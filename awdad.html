@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>简单聊天界面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 10px;
+            overflow: hidden;
+            background-color: #fff;
+        }
+        .chat-header {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        .messages {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            border-top: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+        }
+        .message {
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+        }
+        .message.right {
+            justify-content: flex-end;
+        }
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .message-content {
+            background-color: #e9ecef;
+            padding: 10px;
+            border-radius: 5px;
+            position: relative;
+        }
+        .message.right .message-content {
+            background-color: #d4edda;
+        }
+        .timestamp {
+            font-size: 0.8em;
+            color: gray;
+            position: absolute;
+            bottom: -15px;
+            right: 10px;
+        }
+        .input-area {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #ccc;
+        }
+        .input-area input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        .input-area button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">聊天标题</div>
+        <div class="messages" id="messageContainer">
+            <!-- 30条消息 -->
+            <div class="message">
+                <img src="avatar_lzz.png" alt="LZZ" class="avatar">
+                <div class="message-content">
+                    这是什么，点一下<span class="timestamp">12:00</span>
+                </div>
+            </div>
+            <div class="message right">
+                <div class="message-content">
+                    这是什么，点一下<span class="timestamp">12:01</span>
+                </div>
+                <img src="avatar_lyy.png" alt="LYY" class="avatar">
+            </div>
+            <!-- 添加更多相同内容的消息 -->
+            <!-- ... (省略重复内容以节省空间) ... -->
+            <div class="message">
+                <img src="avatar_lzz.png" alt="LZZ" class="avatar">
+                <div class="message-content">
+                    这是什么，点一下<span class="timestamp">12:30</span>
+                </div>
+            </div>
+        </div>
+        <div class="input-area">
+            <input type="text" id="messageInput" placeholder="输入消息...">
+            <button onclick="sendMessage()">发送</button>
+        </div>
+    </div>
+
+    <script>
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const messageContainer = document.getElementById('messageContainer');
+        
+            if (input.value.trim() !== '') {
+                // 创建新的消息元素
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message right';
+
+                const messageContentDiv = document.createElement('div');
+                messageContentDiv.className = 'message-content';
+                messageContentDiv.innerHTML = `${input.value}<span class="timestamp">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>`;
+
+                messageDiv.appendChild(messageContentDiv);
+                const avatarImg = document.createElement('img');
+                avatarImg.src = 'avatar_lyy.png'; // 发送者头像
+                avatarImg.alt = 'LYY';
+                avatarImg.className = 'avatar';
+                messageDiv.appendChild(avatarImg);
+
+                messageContainer.appendChild(messageDiv);
+                messageContainer.scrollTop = messageContainer.scrollHeight; // 滚动到底部
+                input.value = ''; // 清空输入框
+            }
+        }
+    </script>
+</body>
+</html>
